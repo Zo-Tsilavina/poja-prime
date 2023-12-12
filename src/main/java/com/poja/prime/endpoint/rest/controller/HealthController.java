@@ -2,8 +2,10 @@ package com.poja.prime.endpoint.rest.controller;
 
 import static java.util.UUID.randomUUID;
 
+import com.poja.prime.PojaApplication;
 import com.poja.prime.PojaGenerated;
 import com.poja.prime.endpoint.event.EventProducer;
+import com.poja.prime.endpoint.event.gen.PojaPrime;
 import com.poja.prime.endpoint.event.gen.UuidCreated;
 import com.poja.prime.repository.DummyRepository;
 import com.poja.prime.repository.DummyUuidRepository;
@@ -47,13 +49,9 @@ public class HealthController {
     Thread.sleep(20_000);
     return dummyUuidRepository.findById(randomUuid).map(DummyUuid::getId).orElseThrow();
   }
-  public class PrimeController {
 
-    @GetMapping("/new-prime")
-    public String generateNewPrime() {
-      BigInteger probablePrime = BigInteger.probablePrime(10000, new Random());
-
-      return "New probable prime number with 10,000 bits : " + probablePrime.toString();
+  @GetMapping("/getNewPrime")
+  public BigInteger getPrime(){
+      return PojaPrime.generateNewPrime();
     }
-  }
 }
